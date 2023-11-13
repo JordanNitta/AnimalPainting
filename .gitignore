@@ -41,5 +41,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
+
+# Block me
 /src/environments/environment.development.ts
 /src/environments/environment.ts
