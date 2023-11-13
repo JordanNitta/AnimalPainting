@@ -11,6 +11,8 @@ export class CartViewComponent implements OnInit {
 
   // Array to store cart items
   cartItems: Product[] = [];
+  // Need a varaible for cart total 
+  totalPrice: number = 0;
 
   // Inject the CartService into the constructor
   constructor(private cartService: CartService) { }
@@ -22,7 +24,25 @@ export class CartViewComponent implements OnInit {
     this.cartService.getCartItems().subscribe(data => {
       // Set the cartItems array to the data received from the service
       this.cartItems = data;
-      console.log(this.cartItems)
+      this.totalPrice = this.getTotalPrice();
+      // console.log(this.cartItems
     });
+  }
+
+  getTotalPrice(): number {
+    let total = 0;
+    for(let item of this.cartItems){
+      total += item.price;
+
+    }
+    return total;
+  }
+
+  clearCart(): void {
+    this.cartService.clearCart().subscribe();
+  }
+
+  checkOut(): void {
+    this.cartService.checkOut(this.cartItems).subscribe();
   }
 }

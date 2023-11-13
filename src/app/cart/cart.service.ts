@@ -9,7 +9,9 @@ import { Product } from '../models/product';
 export class CartService {
 
   // Setting up are api
-  private apiUrl = environment.apiUrl + "/cart"
+  private apiCartUrl = environment.apiUrl + "/cart"
+
+  private apiCheckOutUrl = environment.apiUrl + "/checkout"
 
   // Inject the HttpClient service into the constructor
   constructor(private http: HttpClient) { }
@@ -20,7 +22,7 @@ export class CartService {
     // Use HttpClient to send a POST request to the API
     // The API URL is specified in the service
     // The product data is included in the request body
-    return this.http.post<Product>(this.apiUrl, product);
+    return this.http.post<Product>(this.apiCartUrl, product);
   }
 
    // Retrieve cart items from the API
@@ -28,7 +30,7 @@ export class CartService {
   getCartItems(): Observable<Product[]> {
     // Use HttpClient to send a GET request to the API
     // The API URL is specified in the service
-    return this.http.get<Product[]>(this.apiUrl);
+    return this.http.get<Product[]>(this.apiCartUrl);
   }
 
   // Clear the items in the shopping cart
@@ -36,10 +38,16 @@ export class CartService {
   clearCart(): Observable<void> {
     // Use HttpClient to send a DELETE request to the API
     // The API URL is specified in the service
-    return this.http.delete<void>(this.apiUrl);
+    return this.http.delete<void>(this.apiCartUrl);
+  }
+
+  
+  checkOut(products: Product[]): Observable<void> {
+    return this.http.post<void>(this.apiCheckOutUrl, products)
   }
 
   ngOnInit(): void {
+    
   }
-  
+
 }
